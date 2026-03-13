@@ -91,7 +91,6 @@ const ProductDetails = () => {
                                 alt="" 
                                 className="w-full h-[400px] object-contain rounded-lg cursor-pointer"
                                 onClick={() => setIsFullScreen(true)}
-                                onError={(e) => e.target.src = assets.upload_area}
                             />
                             {/* Navigation Buttons */}
                             <button 
@@ -129,7 +128,6 @@ const ProductDetails = () => {
                                     alt="" 
                                     onClick={() => setThumbnail(item)}
                                     className={`w-20 h-20 object-contain cursor-pointer transition-all ${thumbnail === item ? 'opacity-100' : 'opacity-50 hover:opacity-75'}`}
-                                    onError={(e) => e.target.src = assets.upload_area}
                                 />
                             ))}
                         </div>
@@ -226,7 +224,6 @@ const ProductDetails = () => {
                             src={thumbnail} 
                             alt="Full screen product" 
                             className="max-w-full max-h-full object-contain"
-                            onError={(e) => e.target.src = assets.upload_area}
                         />
                     </div>
                 </div>

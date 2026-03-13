@@ -10,6 +10,10 @@ const ProductCart = ({ product, small, smaller }) => {
     const isProductDetails = location.pathname.match(/^\/products\/[^/]+\/[^/]+$/);
 
     const handleProductClick = () => {
+        if (!product.category) {
+            console.error('Product category is missing for product:', product);
+            return;
+        }
         navigate(`/products/${product.category.toLowerCase()}/${product._id}`);
         window.scrollTo(0, 0);
     };
@@ -56,7 +60,7 @@ const ProductCart = ({ product, small, smaller }) => {
     return product && (
         <div onClick={handleProductClick} className={`bg-white border border-black border-r-2 rounded-md cursor-pointer transition-all duration-300 ${boxClass}`}>
             <div className={`group flex items-center justify-center relative ${pxClass}`}>
-                <img className={`group-hover:scale-105 transition w-full object-contain ${imgClass}`} src={product.image[0]} alt={product.name} onError={(e) => e.target.src = assets.upload_area} />
+                <img className={`group-hover:scale-105 transition w-full object-contain ${imgClass}`} src={product.image[0]} alt={product.name} />
             </div>
             <div className={`text-black text-sm ${mtClass}`}>
                 <p className={`${isHomePage ? 'text-black' : 'text-black'} ${catTextClass}`}>{product.category}</p>

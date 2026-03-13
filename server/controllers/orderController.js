@@ -5,6 +5,7 @@ import Address from "../models/Address.js";
 import mongoose from "mongoose";
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
+import sendOrderEmail from "../utils/sendOrderEmail.js";
 
 // Initialize Razorpay with error handling
 let razorpay;
@@ -64,6 +65,21 @@ export const placedOrderCOD = async (req, res) => {
             paymentType: "COD",
             status: "pending"
         });
+
+        // Populate user and product details before sending email
+        const populatedOrder = await Order.findById(order._id)
+            .populate('userId')
+            .populate('items.product')
+            .populate('address');
+
+        // Send order details to Gmail (admin) and user
+        try {
+            await sendOrderEmail(populatedOrder);
+            await sendOrderEmail(populatedOrder, true);
+        } catch (emailError) {
+            console.error('Error sending order email:', emailError);
+            // Don't fail the order if email fails
+        }
 
         // Update stock quantities
         for (const item of items) {
